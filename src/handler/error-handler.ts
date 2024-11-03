@@ -10,13 +10,12 @@ export const errorHandler = (method: Function) => {
       let exception: HttpException;
       if (error instanceof HttpException) {
         exception = error;
-      } else {
-        exception = new InternalException(
-          "Oops, something went wrong!",
-          error,
-          ErrorCode.INTERNAL_EXCEPTION,
-        );
       }
+      exception = new InternalException(
+        "Oops, something went wrong!",
+        error,
+        ErrorCode.INTERNAL_EXCEPTION,
+      );
       next(exception);
     }
   };
