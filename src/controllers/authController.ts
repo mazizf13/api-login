@@ -23,6 +23,7 @@ export const signup = async (
       ErrorCode.USER_ALREADY_EXISTS,
     );
   }
+
   user = await prismaClient.user.create({
     data: {
       name,
@@ -40,12 +41,14 @@ export const login = async (req: Request, res: Response) => {
   if (!user) {
     throw new NotFoundException("User not found!", ErrorCode.USER_NOT_FOUND);
   }
+
   if (!compareSync(password, user.password)) {
     throw new BadRequestException(
       "Invalid password!",
       ErrorCode.INVALID_PASSWORD,
     );
   }
+
   const token = jwt.sign({ userId: user.id }, JWT_SECRET);
 
   res.json({ user, token });
